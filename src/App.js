@@ -1,10 +1,6 @@
-import { BrowserRouter, Link, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Link } from "react-router-dom";
 
-import { Home } from "./Home";
-import { Page1 } from "./Page1";
-import { Page1DetailA } from "./Page1DetailA";
-import { Page1DetailB } from "./Page1DetailB";
-import { Page2 } from "./Page2";
+import { Router } from "./router/Router";
 import "./styles.css";
 
 export default function App() {
@@ -17,34 +13,7 @@ export default function App() {
         <br />
         <Link to="/Page2">Page2</Link>
       </div>
-      <switch>
-        {/* exact（完全一致）がないと常にRoot（/）の情報が表示されてしまう */}
-        <Route exact path="/">
-          <Home />
-        </Route>
-        <Route
-          path="/page1"
-          render={({ match: { url } }) => (
-            <switch>
-              {console.log(url)}
-              <Route exact path={url}>
-                <Page1 />
-              </Route>
-              {/* urlという引数を取得してPATHに指定する。page1配下は自明なため */}
-              <Route path={`${url}/detailA`}>
-                <Page1DetailA />
-              </Route>
-              {/* 通常のPATHの書き方だと間違いやすい*/}
-              <Route path="/Page1/detailB">
-                <Page1DetailB />
-              </Route>
-            </switch>
-          )}
-        />
-        <Route path="/page2">
-          <Page2 />
-        </Route>
-      </switch>
+      <Router />
     </BrowserRouter>
   );
 }
