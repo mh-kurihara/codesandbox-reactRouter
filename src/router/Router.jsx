@@ -1,12 +1,12 @@
-import { BrowserRouter, Link, Switch, Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { Home } from "../Home";
-import { Page2 } from "../Page2";
+import { Page404 } from "../Page404";
 import { Page1Routes } from "./Page1Routes";
 import { Page2Routes } from "./Page2Routes";
 
 export const Router = () => {
   return (
-    <switch>
+    <Switch>
       {/* exact（完全一致）がないと常にRoot（/）の情報が表示されてしまう */}
       <Route exact path="/">
         <Home />
@@ -14,7 +14,7 @@ export const Router = () => {
       <Route
         path="/page1"
         render={({ match: { url } }) => (
-          <switch>
+          <Switch>
             {Page1Routes.map((route) => (
               <Route
                 key={route.path}
@@ -24,13 +24,16 @@ export const Router = () => {
                 {route.Children}
               </Route>
             ))}
-          </switch>
+            <Route path="*">
+              <Page404 />
+            </Route>
+          </Switch>
         )}
       />
       <Route
         path="/page2"
         render={({ match: { url } }) => (
-          <switch>
+          <Switch>
             {Page2Routes.map((route) => (
               <Route
                 key={route.path}
@@ -40,9 +43,16 @@ export const Router = () => {
                 {route.Children}
               </Route>
             ))}
-          </switch>
+            <Route path="*">
+              <Page404 />
+            </Route>
+          </Switch>
         )}
       />
-    </switch>
+      {/* 存在しないルートを404へ */}
+      <Route path="*">
+        <Page404 />
+      </Route>
+    </Switch>
   );
 };
